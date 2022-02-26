@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor2-git", "Blazor2-git\Blazor2-git.csproj", "{3B350378-CC63-468A-B57E-4C5BBF22EFCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B350378-CC63-468A-B57E-4C5BBF22EFCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B350378-CC63-468A-B57E-4C5BBF22EFCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B350378-CC63-468A-B57E-4C5BBF22EFCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B350378-CC63-468A-B57E-4C5BBF22EFCC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B018B650-1FCB-4B21-B062-DEA18AE3F093}
+	EndGlobalSection
+EndGlobal
