@@ -12,9 +12,18 @@
 <button @onclick="Hadam" class="btn btn-info">Hádám</button>
 
 
-<div>
+<div style="@barva">
     @status
 </div>
+
+<h4>Historie čísel</h4>
+
+    @foreach (var c in cislaHistorie)
+        {
+            <tr>
+                <td>@c</td>
+            </tr>
+        }
 
 
 <div>
@@ -34,6 +43,8 @@
     int? hadaneCislo;
     string status = "";
     bool odkrytaNapoveda = false;
+    string barva = "color:blue";
+    List<int> cislaHistorie = new List<int>();
 
 
     protected override void OnInitialized()
@@ -46,12 +57,14 @@
         Random rnd = new();
         mysleneCislo = rnd.Next(99) + 1;//1-100
         status = "Hadej cislo!";
+        cislaHistorie = new List<int>();
     }
 
 
     void Hadam()
     {
         string mensi_vetsi = hadaneCislo < mysleneCislo ? "mensi" : "vetsi";
+        barva = hadaneCislo < mysleneCislo ? "color:red" : "color:green";
         if (hadaneCislo != mysleneCislo)
         {
             status = $"Hadane cislo {hadaneCislo} je {mensi_vetsi} nez myslene cislo! Hadej dal";
@@ -59,6 +72,12 @@
         else
         {
             status = "uhadl jsi cislo, zmackni reset na novou hru";
+        }
+
+        if (hadaneCislo.HasValue) 
+        {
+            int pomocna = hadaneCislo.Value;
+            cislaHistorie.Add(pomocna);
         }
     }
 
@@ -75,8 +94,7 @@
             Reset();   
             hadaneCislo = null;
         }
-        
-    }
 
+    }
 
 }
