@@ -20,9 +20,7 @@
 
     @foreach (var c in cislaHistorie)
         {
-            <tr>
-                <td>@c</td>
-            </tr>
+                <p>@c</p>
         }
 
 
@@ -57,7 +55,7 @@
         Random rnd = new();
         mysleneCislo = rnd.Next(99) + 1;//1-100
         status = "Hadej cislo!";
-        cislaHistorie = new List<int>();
+        cislaHistorie.Clear();
     }
 
 
