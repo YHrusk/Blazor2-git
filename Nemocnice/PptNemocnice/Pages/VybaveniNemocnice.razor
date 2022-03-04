@@ -1,0 +1,93 @@
+﻿@page "/vybaveni"
+
+<PageTitle>Vybaveni nemocnice</PageTitle>
+
+<h3>Vybaveni Nemocnice:</h3>
+
+<table class="table">
+        <thead>
+            <tr>
+                <th>Nazev</th>
+                <th>Datum nákupu</th>
+                <th>Datum poslední revize</th>
+                <th>Ptřebuje revizi?</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (seznam.Count != 0)
+        {
+            @foreach (var pomocna in seznam)
+            {
+                <tr>
+                    <td>@pomocna.Name</td>
+                    <td>@pomocna.BoughtDate.ToShortDateString()</td>
+                    <td>@pomocna.LastRevisionDate.ToShortDateString()</td>
+                    @if (@KontrolaRevize(pomocna.LastRevisionDate))
+                    {
+                        <td style="background-color:red">ANO</td>
+                    } else {<td>NE</td>}
+                    <td><button style="background-color:red" @onclick = "@(() => seznam.Remove(pomocna))">Smazat</button></td>
+                    <td><button style="background-color:blue" @onclick="@(() => Revize(seznam.IndexOf(pomocna)))">Provést revizi</button></td>
+                </tr>
+            }
+        } else {<p>Nic zde není</p>}
+        </tbody>
+    </table>
+
+
+@code {
+
+    List <vybaveniModel> seznam = new List<vybaveniModel>();
+
+    protected override void OnInitialized()
+    {
+        Generovat();
+    }
+
+    void Generovat()
+    {
+
+        for (int i = 0; i < 10; i++)
+        {
+            //nazev
+            Random random = new Random();
+
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
+
+            //datum nakupu
+            Random gen = new Random();
+
+            DateTime start_nakup = new DateTime(2005, 1, 1);
+            int range_nakup = (DateTime.Today - start_nakup).Days;           
+            DateTime nakup = start_nakup.AddDays(gen.Next(range_nakup));
+
+            //datum revize
+            DateTime start_revize = new DateTime(2018, 1, 1);
+            int range_revize = (DateTime.Today - start_revize).Days;           
+            DateTime revize = start_revize.AddDays(gen.Next(range_revize));
+
+            //je potreba revize?
+            bool b = KontrolaRevize(revize);
+
+            vybaveniModel vyb = new vybaveniModel(nazev, nakup, revize, b);
+            seznam.Add(vyb);
+        }
+
+    }
+
+    void Revize(int index)
+    {
+        DateTime d = DateTime.Today;
+        seznam[index].LastRevisionDate = d;
+    }
+
+    bool KontrolaRevize(DateTime datumRevize)
+    {
+        bool b = datumRevize.Year <= 2019 ? true : false;
+        return b;
+    }
+
+}
