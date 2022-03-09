@@ -1,0 +1,36 @@
+﻿@*<h3>VybaveniRow</h3>*@
+
+                @if (Item == null) return;
+                @if (Item.IsInEditMode == false)
+                {
+                    <tr>
+                        <td>@Item.Name</td>
+                        <td>@Item.BoughtDate.ToShortDateString()</td>    
+                        <td>@Item.LastRevisionDate.ToShortDateString()</td>
+                        <td>@(Item.NeedRevision?"Ano":"Ne")</td>
+                        <td class="flex gap-1">
+                    <button @onclick="() => DeleteItemCallback.InvokeAsync()" class="twbtn bg-red-400">Smazat</button>
+                    <button style="background-color:blue" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button>
+                    <button @onclick="() => Item.IsInEditMode = true" class="bg-yellow-400 rounded-sm text-sm px-2 py-1">✏️</button>
+                    </td>
+                    </tr>
+                } else
+                {
+                    <tr>
+                        <td><input @bind-value=Item.Name/></td>
+                        <td><input type="date" @bind-value=Item.BoughtDate/></td>    
+                        <td><input type="date" @bind-value=Item.LastRevisionDate/></td>
+                        <td>@(Item.NeedRevision?"Ano":"Ne")</td>
+
+                        <td class="flex gap-1">
+                        <button @onclick="() => Item.IsInEditMode = false" class="bg-green-400 rounded-sm text-sm px-2 py-1">OK</button>
+                        </td>
+                    </tr>
+                }
+
+@code {
+    [Parameter] public vybaveniModel? Item { get; set; }
+
+    [Parameter] public EventCallback<vybaveniModel> DeleteItemCallback { get; set; }
+
+}
