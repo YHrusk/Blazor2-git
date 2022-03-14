@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PptNemocnice.Shared
 {
-    public class vybaveniModel
+    public class VybaveniModel
     {
         public string Name { get; set; }
         public DateTime BoughtDate { get; set; }
@@ -15,7 +15,7 @@ namespace PptNemocnice.Shared
 
         public bool IsInEditMode { get; set; }
 
-        public vybaveniModel(string nazev, DateTime zakoupeno, DateTime revize, bool uprava)
+        public VybaveniModel(string nazev, DateTime zakoupeno, DateTime revize, bool uprava)
         {
             Name = nazev;
             BoughtDate = zakoupeno;

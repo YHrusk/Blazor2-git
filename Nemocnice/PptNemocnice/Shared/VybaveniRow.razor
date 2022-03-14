@@ -3,7 +3,7 @@
                 @if (Item == null) return;
                 @if (Item.IsInEditMode == false)
                 {
-                    <tr>
+                    <tr class="@(Item.NeedRevision?"bg-red-300":"")">
                         <td>@Item.Name</td>
                         <td>@Item.BoughtDate.ToShortDateString()</td>    
                         <td>@Item.LastRevisionDate.ToShortDateString()</td>
@@ -11,7 +11,7 @@
                         <td class="flex gap-1">
                     <button @onclick="() => DeleteItemCallback.InvokeAsync()" class="twbtn bg-red-400">Smazat</button>
                     <button style="background-color:blue" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button>
-                    <button @onclick="() => Item.IsInEditMode = true" class="bg-yellow-400 rounded-sm text-sm px-2 py-1">✏️</button>
+                    <button @onclick="() => Item.IsInEditMode = true" class="twbtn bg-amber-300">✏️</button>
                     </td>
                     </tr>
                 } else
@@ -23,14 +23,14 @@
                         <td>@(Item.NeedRevision?"Ano":"Ne")</td>
 
                         <td class="flex gap-1">
-                        <button @onclick="() => Item.IsInEditMode = false" class="bg-green-400 rounded-sm text-sm px-2 py-1">OK</button>
+                        <button @onclick="() => Item.IsInEditMode = false" class="twbtn bg-green-500">OK</button>
                         </td>
                     </tr>
                 }
 
 @code {
-    [Parameter] public vybaveniModel? Item { get; set; }
+    [Parameter] public VybaveniModel? Item { get; set; }
 
-    [Parameter] public EventCallback<vybaveniModel> DeleteItemCallback { get; set; }
+    [Parameter] public EventCallback<VybaveniModel> DeleteItemCallback { get; set; }
 
 }

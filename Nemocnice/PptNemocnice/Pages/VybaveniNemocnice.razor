@@ -29,7 +29,7 @@
 
 @code {
 
-    List <vybaveniModel> seznam = new List<vybaveniModel>();
+    List <VybaveniModel> seznam = new List<VybaveniModel>();
 
     protected override void OnInitialized()
     {
@@ -58,7 +58,7 @@
             int range_revize = (DateTime.Today - start_revize).Days;           
             DateTime revize = start_revize.AddDays(random.Next(range_revize));
 
-            vybaveniModel vyb = new vybaveniModel(nazev, nakup, revize, false);
+            VybaveniModel vyb = new VybaveniModel(nazev, nakup, revize, false);
             seznam.Add(vyb);
         }
 
