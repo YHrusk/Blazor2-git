@@ -4,18 +4,37 @@
 
 <h3>Vybaveni Nemocnice:</h3>
 
+
+@if (!isInNewMode)
+{
+    <button @onclick="@(() => {isInNewMode = true; newEntity = new(){IsInEditMode = true, Name = "nove"}; })" class="twbtn bg-green-300">Přidej nový záznam</button>
+}
+
+
 <table class="table">
         <thead>
             <tr>
-                <th>Nazev</th>
+                <th>Název</th>
                 <th>Datum nákupu</th>
                 <th>Datum poslední revize</th>
-                <th>Ptřebuje revizi?</th>
+                <th>Potřebuje revizi?</th>
+                <th>Cena</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
+
         <tbody>
+            @if (isInNewMode)
+            {
+                <VybaveniRow Item=newEntity EditDoneCallBack="() => {isInNewMode = false; newEntity.IsInEditMode = false; seznam.Insert(0,newEntity);}">               @*ChildContent*@
+                        <button type="submit" class="twbtn bg-blue-500">Přidej</button>
+                        <button @onclick="() => isInNewMode = false" class="twbtn bg-yellow-500">Zrušit</button>
+
+                        @*<button @onclick="() => {seznam.Insert(0,newEntity); newEntity.IsInEditMode = false; isInNewMode = false;}">Přidej</button>*@
+                </VybaveniRow/>
+            } 
+
             @if (seznam.Count != 0)
             {
                 @foreach (var pomocna in seznam)
@@ -30,6 +49,8 @@
 @code {
 
     List <VybaveniModel> seznam = new List<VybaveniModel>();
+    bool isInNewMode = false;                   //boolean jestli chci nový záznam
+    VybaveniModel newEntity;
 
     protected override void OnInitialized()
     {
@@ -58,7 +79,9 @@
             int range_revize = (DateTime.Today - start_revize).Days;           
             DateTime revize = start_revize.AddDays(random.Next(range_revize));
 
-            VybaveniModel vyb = new VybaveniModel(nazev, nakup, revize, false);
+            int cena = random.Next(500, 1000000);
+
+            VybaveniModel vyb = new VybaveniModel(nazev, nakup, revize, false, cena);
             seznam.Add(vyb);
         }
 
