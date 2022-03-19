@@ -7,50 +7,54 @@
 
 @if (!isInNewMode)
 {
-    <button @onclick="@(() => {isInNewMode = true; newEntity = new(){IsInEditMode = true, Name = "nove"}; })" class="twbtn bg-green-300">Přidej nový záznam</button>
+    <button @onclick="@(() => {isInNewMode = true; newEntity = new(){IsInEditMode = true, Name="new"};})" class="twbtn bg-blue-500 my-2">Přidej nový záznam</button>
 }
 
-
 <table class="table">
-        <thead>
-            <tr>
-                <th>Název</th>
-                <th>Datum nákupu</th>
-                <th>Datum poslední revize</th>
-                <th>Potřebuje revizi?</th>
-                <th>Cena</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
+    <thead>
+        <tr>
+            <th>Název</th>
+            <th>Datum nákupu</th>
+            <th>Datum poslední revize</th>
+            <th>Potřebuje revizi?</th>
+            <th>Cena</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
 
-        <tbody>
-            @if (isInNewMode)
+    <tbody>
+        @if (isInNewMode && newEntity != null)
+        {
+            <VybaveniRow EditDoneCallback="(success) => {if(success)seznam.Insert(0,newEntity); isInNewMode = false;}" Item=newEntity>
+                <tr>
+                    <button class="twbtn bg-blue-500">Přidej</button>
+                    <button type="button" @onclick="() => isInNewMode = false" class="twbtn bg-yellow-500">Zrušit</button>
+                </tr>
+            </VybaveniRow>
+        }
+
+        @if (seznam.Count != 0)
+        {
+            @foreach (var item in seznam)
             {
-                <VybaveniRow Item=newEntity EditDoneCallBack="() => {isInNewMode = false; newEntity.IsInEditMode = false; seznam.Insert(0,newEntity);}">               @*ChildContent*@
-                        <button type="submit" class="twbtn bg-blue-500">Přidej</button>
-                        <button @onclick="() => isInNewMode = false" class="twbtn bg-yellow-500">Zrušit</button>
-
-                        @*<button @onclick="() => {seznam.Insert(0,newEntity); newEntity.IsInEditMode = false; isInNewMode = false;}">Přidej</button>*@
-                </VybaveniRow/>
-            } 
-
-            @if (seznam.Count != 0)
-            {
-                @foreach (var pomocna in seznam)
-                {
-                  <VybaveniRow Item=pomocna DeleteItemCallback="() => seznam.Remove(pomocna)" />
-                }
-            } else {<tr>Nic zde není</tr>}
-        </tbody>
- </table>
+                <VybaveniRow Item=item DeleteItemCallback="() => seznam.Remove(item)" />
+            }
+        }
+        else
+        {
+            <tr>Nic zde není</tr>
+        }
+    </tbody>
+</table>
 
 
 @code {
 
-    List <VybaveniModel> seznam = new List<VybaveniModel>();
-    bool isInNewMode = false;                   //boolean jestli chci nový záznam
-    VybaveniModel newEntity;
+    List<VybaveniModel> seznam = new List<VybaveniModel>();
+    bool isInNewMode;                                           //boolean jestli chci nový záznam
+
+    VybaveniModel? newEntity;
 
     protected override void OnInitialized()
     {
@@ -62,21 +66,21 @@
 
         for (int i = 0; i < 10; i++)
         {
-            //nazev
             Random random = new Random();
 
+            //nazev
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
 
             //datum nakupu
 
             DateTime start_nakup = new DateTime(2005, 1, 1);
-            int range_nakup = (DateTime.Today - start_nakup).Days;           
+            int range_nakup = (DateTime.Today - start_nakup).Days;
             DateTime nakup = start_nakup.AddDays(random.Next(range_nakup));
 
             //datum revize
             DateTime start_revize = new DateTime(2018, 1, 1);
-            int range_revize = (DateTime.Today - start_revize).Days;           
+            int range_revize = (DateTime.Today - start_revize).Days;
             DateTime revize = start_revize.AddDays(random.Next(range_revize));
 
             int cena = random.Next(500, 1000000);

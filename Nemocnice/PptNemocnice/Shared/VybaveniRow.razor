@@ -1,7 +1,8 @@
 ﻿@*<h3>VybaveniRow</h3>*@
 
 @if (Item == null) return;
-@if (Item.IsInEditMode == false)
+
+@if (Item != null && !Item.IsInEditMode)            @*vypsani seznamu*@
 {
     <tr class="@(Item.NeedRevision?"bg-red-300":"")">
         <td>@Item.Name</td>
@@ -10,17 +11,17 @@
         <td>@(Item.NeedRevision?"Ano":"Ne")</td>
         <td>@Item.Price</td>
         <td class="flex gap-1">
-            <button @onclick="() => DeleteItemCallback.InvokeAsync()" class="twbtn bg-red-400">Smazat</button>              @*smazani*@
-            <button style="background-color:blue" @onclick="() => Item.LastRevisionDate = DateTime.Now">Provést revizi</button>             @*revize*@
-            <button @onclick="() => Item.IsInEditMode = true" class="twbtn bg-amber-300">✏️</button>         @*edit*@
+            <button @onclick="@(() => DeleteItemCallback.InvokeAsync())" class="twbtn bg-red-400">Smazat</button>              @*smazani*@
+            <button @onclick="() => Item.LastRevisionDate = DateTime.Now" style="background-color:blue">Provést revizi</button>             @*revize*@
+            <button @onclick="() => TurnOnEdit()" class="twbtn bg-amber-300">✏️</button>         @*edit*@
         </td>
     </tr>
 }
-else
+else if (editingItem != null && editingItem.IsInEditMode)
 {
     <tr class="border-2 border-slate-400">
         <td colspan="5">
-            <EditForm Model=@Item OnValidSubmit="() => EditDoneCallBack.InvokeAsync()">         @*kontrola validace*@
+            <EditForm Model=Item OnValidSubmit="() => TurnOffEdit(true)">                       @*kontrola validace*@
                 <DataAnnotationsValidator />
                 @*<ValidationSummary />*@
                 <table class="table">
@@ -30,8 +31,8 @@ else
                                 <InputText @bind-Value=Item.Name />
                                 <ValidationMessage For=" () => Item.Name"></ValidationMessage>
                             </td>
-                            <td><input type="date" @bind-value=Item.BoughtDate /></td>
-                            <td><input type="date" @bind-value=Item.LastRevisionDate /></td>
+                            <td><InputDate @bind-Value=Item.BoughtDate /></td>
+                            <td><InputDate @bind-Value=Item.LastRevisionDate /></td>
                             <td>@(Item.NeedRevision?"Ano":"Ne")</td>
                             <td>
                                 <InputNumber type="number" @bind-Value=Item.Price />
@@ -41,7 +42,7 @@ else
                             <td class="flex gap-1">
                                 @if (ChildContent == null)
                                 {
-                                    <button type="submit" class="twbtn bg-yellow-300">Ok</button>
+                                    <button @onclick="() => Item.IsInEditMode = false" class=" twbtn bg-yellow-300">Ok</button>
                                 }
                                 else
                                 {
@@ -57,12 +58,47 @@ else
 }
 
 @code {
-    [Parameter] public VybaveniModel? Item { get; set; }
-
     [Parameter] public EventCallback<VybaveniModel> DeleteItemCallback { get; set; }
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 
-    [Parameter] public EventCallback<VybaveniModel> EditDoneCallBack { get; set; }
+    [Parameter] public EventCallback<bool> EditDoneCallback { get; set; }
+
+    VybaveniModel? _Item;
+
+    VybaveniModel? editingItem;
+
+    [Parameter]
+    public VybaveniModel? Item
+    {
+        get => _Item;
+        set
+        {
+            _Item = value;
+            if (value != null && value.IsInEditMode)
+                TurnOnEdit();
+        }
+    }
+
+    private void TurnOnEdit()
+    {
+        if (Item != null)
+        {
+            Item.IsInEditMode = true;
+            editingItem = Item.Copy();
+        }
+    }
+
+    private void TurnOffEdit(bool success)
+    {
+        if (success)
+        {
+            editingItem?.MapTo(Item);
+        }
+        if (Item is not null)
+            Item.IsInEditMode = false;
+        editingItem = null;
+        EditDoneCallback.InvokeAsync(success);
+    }
 
 }

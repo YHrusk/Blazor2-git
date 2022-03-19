@@ -32,7 +32,25 @@ namespace PptNemocnice.Shared
 
         public VybaveniModel()              //prazdny konstruktor pro vytvoreni newEntity
         {
-                
+
+        }
+
+        public VybaveniModel Copy()
+        {
+            VybaveniModel to = new();
+            to.BoughtDate = BoughtDate;
+            to.LastRevisionDate = LastRevisionDate;
+            to.IsInEditMode = IsInEditMode;
+            to.Name = Name;
+            return to;
+        }
+
+        public void MapTo(VybaveniModel? to)        //potvrzeni editu --> přemapování
+        {
+            if (to == null) return;
+            to.BoughtDate = BoughtDate;
+            to.LastRevisionDate = LastRevisionDate;
+            to.Name = Name;
         }
 
     }
