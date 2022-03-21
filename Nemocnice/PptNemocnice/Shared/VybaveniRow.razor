@@ -21,28 +21,29 @@ else if (editingItem != null && editingItem.IsInEditMode)
 {
     <tr class="border-2 border-slate-400">
         <td colspan="5">
-            <EditForm Model=Item OnValidSubmit="() => TurnOffEdit(true)">                       @*kontrola validace*@
+            <EditForm Model=editingItem OnValidSubmit="() => TurnOffEdit(true)">                       @*kontrola validace*@
                 <DataAnnotationsValidator />
                 @*<ValidationSummary />*@
                 <table class="table">
                     <tbody>
                         <tr>
                             <td>
-                                <InputText @bind-Value=Item.Name />
-                                <ValidationMessage For=" () => Item.Name"></ValidationMessage>
+                                <InputText @bind-Value=editingItem.Name />
+                                <ValidationMessage For=" () => editingItem.Name"></ValidationMessage>
                             </td>
-                            <td><InputDate @bind-Value=Item.BoughtDate /></td>
-                            <td><InputDate @bind-Value=Item.LastRevisionDate /></td>
-                            <td>@(Item.NeedRevision?"Ano":"Ne")</td>
+                            <td><InputDate @bind-Value=editingItem.BoughtDate /></td>
+                            <td><InputDate @bind-Value=editingItem.LastRevisionDate /></td>
+                            <td>@(editingItem.NeedRevision?"Ano":"Ne")</td>
                             <td>
-                                <InputNumber type="number" @bind-Value=Item.Price />
-                                <ValidationMessage For=" () => Item.Price"></ValidationMessage>
+                                <InputNumber type="number" @bind-Value=editingItem.Price />
+                                <ValidationMessage For=" () => editingItem.Price"></ValidationMessage>
                             </td>
 
                             <td class="flex gap-1">
                                 @if (ChildContent == null)
                                 {
-                                    <button @onclick="() => Item.IsInEditMode = false" class=" twbtn bg-yellow-300">Ok</button>
+                                    <button class=" twbtn bg-yellow-300">Ok</button>
+                                    <button type="button" @onclick="()=> TurnOffEdit(false)" class="twbtn bg-danger">Zrušit</button>
                                 }
                                 else
                                 {
@@ -58,7 +59,7 @@ else if (editingItem != null && editingItem.IsInEditMode)
 }
 
 @code {
-    [Parameter] public EventCallback<VybaveniModel> DeleteItemCallback { get; set; }
+    [Parameter] public EventCallback DeleteItemCallback { get; set; }
 
     [Parameter] public RenderFragment? ChildContent { get; set; }
 

@@ -17,8 +17,8 @@ namespace PptNemocnice.Shared
         public bool NeedRevision => DateTime.Now - LastRevisionDate > TimeSpan.FromDays(365 * 2);
         public bool IsInEditMode { get; set; }
 
-        [Range(1, 10000000, ErrorMessage = "Cena musí být mezi 1 a 10 000 000.")]
-        //[Display(Name = "Cena")]
+        [Range(1, 10000000, ErrorMessage = "{0} musí být mezi 1 a 10 000 000.")]
+        [Display(Name = "Cena")]
         public int Price { get; set; }
 
         public VybaveniModel(string nazev, DateTime zakoupeno, DateTime revize, bool uprava, int cena)
@@ -42,6 +42,7 @@ namespace PptNemocnice.Shared
             to.LastRevisionDate = LastRevisionDate;
             to.IsInEditMode = IsInEditMode;
             to.Name = Name;
+            to.Price = Price;
             return to;
         }
 
@@ -51,6 +52,7 @@ namespace PptNemocnice.Shared
             to.BoughtDate = BoughtDate;
             to.LastRevisionDate = LastRevisionDate;
             to.Name = Name;
+            to.Price = Price;
         }
 
     }
