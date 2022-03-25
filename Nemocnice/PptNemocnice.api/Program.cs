@@ -63,12 +63,11 @@ app.MapPut("/vybaveni", (Guid Id) =>                                /*edit*/
     return Results.Ok();
 });
 
-//app.MapGet("/vybaveni{Id}", (Guid Id) =>
-//{
-//    var item = seznam.SingleOrDefault(x => x.Id == Id);
-//    if (item == null) return Results.NotFound("Položka nenalezena");
-//    return item;
-//});
+app.MapGet("/vybaveni{Id}", (Guid Id) =>
+{
+    var item = seznam.SingleOrDefault(x => x.Id == Id);
+    return item;
+});
 
 
 app.Run();
