@@ -50,45 +50,41 @@
 
 
 @code {
-
-    List<VybaveniModel> seznam = new List<VybaveniModel>();
     bool isInNewMode;                                           //boolean jestli chci nový záznam
 
     VybaveniModel? newEntity;
 
-    protected override void OnInitialized()
-    {
-        Generovat();
-    }
+    List<VybaveniModel> seznam =  VybaveniModel.Generovat();
 
-    void Generovat()
-    {
 
-        for (int i = 0; i < 10; i++)
-        {
-            Random random = new Random();
+    //void Generovat()
+    //{
 
-            //nazev
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
+    //    for (int i = 0; i < 10; i++)
+    //    {
+    //        Random random = new Random();
 
-            //datum nakupu
+    //        //nazev
+    //        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //        string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
 
-            DateTime start_nakup = new DateTime(2005, 1, 1);
-            int range_nakup = (DateTime.Today - start_nakup).Days;
-            DateTime nakup = start_nakup.AddDays(random.Next(range_nakup));
+    //        //datum nakupu
 
-            //datum revize
-            DateTime start_revize = new DateTime(2018, 1, 1);
-            int range_revize = (DateTime.Today - start_revize).Days;
-            DateTime revize = start_revize.AddDays(random.Next(range_revize));
+    //        DateTime start_nakup = new DateTime(2005, 1, 1);
+    //        int range_nakup = (DateTime.Today - start_nakup).Days;
+    //        DateTime nakup = start_nakup.AddDays(random.Next(range_nakup));
 
-            int cena = random.Next(500, 1000000);
+    //        //datum revize
+    //        DateTime start_revize = new DateTime(2018, 1, 1);
+    //        int range_revize = (DateTime.Today - start_revize).Days;
+    //        DateTime revize = start_revize.AddDays(random.Next(range_revize));
 
-            VybaveniModel vyb = new VybaveniModel(nazev, nakup, revize, false, cena);
-            seznam.Add(vyb);
-        }
+    //        int cena = random.Next(500, 1000000);
 
-    }
+    //        VybaveniModel vyb = new VybaveniModel(nazev, nakup, revize, false, cena);
+    //        seznam.Add(vyb);
+    //    }
+
+    //}
 
 }

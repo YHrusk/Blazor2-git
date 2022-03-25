@@ -9,6 +9,8 @@ namespace PptNemocnice.Shared
 {
     public class VybaveniModel
     {
+        public Guid Id { get; set; }
+
         [Required, MinLength(5, ErrorMessage = "Délka u pole \"{0}\" musí být alespoň {1} znaků")]
         [Display(Name = "Název")]
         public string Name { get; set; }
@@ -17,12 +19,13 @@ namespace PptNemocnice.Shared
         public bool NeedRevision => DateTime.Now - LastRevisionDate > TimeSpan.FromDays(365 * 2);
         public bool IsInEditMode { get; set; }
 
-        [Range(1, 10000000, ErrorMessage = "{0} musí být mezi 1 a 10 000 000.")]
         [Display(Name = "Cena")]
+        [Range(1, 10_000_000, ErrorMessage = "{0} musí být v rozsahu {1} až {2} ")]
         public int Price { get; set; }
 
-        public VybaveniModel(string nazev, DateTime zakoupeno, DateTime revize, bool uprava, int cena)
+        public VybaveniModel(Guid id, string nazev, DateTime zakoupeno, DateTime revize, bool uprava, int cena)
         {
+            Id = id;
             Name = nazev;
             BoughtDate = zakoupeno;
             LastRevisionDate = revize;
@@ -32,6 +35,42 @@ namespace PptNemocnice.Shared
 
         public VybaveniModel()              //prazdny konstruktor pro vytvoreni newEntity
         {
+
+        }
+
+        public static List<VybaveniModel> Generovat()
+        {
+            List<VybaveniModel> seznam = new List<VybaveniModel>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                Random random = new Random();
+
+                //id
+                Guid id = Guid.NewGuid();
+
+                //nazev
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
+
+                //datum nakupu
+
+                DateTime start_nakup = new DateTime(2005, 1, 1);
+                int range_nakup = (DateTime.Today - start_nakup).Days;
+                DateTime nakup = start_nakup.AddDays(random.Next(range_nakup));
+
+                //datum revize
+                DateTime start_revize = new DateTime(2018, 1, 1);
+                int range_revize = (DateTime.Today - start_revize).Days;
+                DateTime revize = start_revize.AddDays(random.Next(range_revize));
+
+                int cena = random.Next(500, 1000000);
+
+                VybaveniModel vyb = new VybaveniModel(id, nazev, nakup, revize, false, cena);
+                seznam.Add(vyb);
+            }
+
+            return seznam;
 
         }
 
