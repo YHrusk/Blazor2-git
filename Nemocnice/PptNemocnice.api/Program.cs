@@ -28,8 +28,7 @@ app.MapGet("/vybaveni", () =>
 
 app.MapPost("/vybaveni", (VybaveniModel prichoziModel) =>           /*create*/
 {
-    Guid guid = Guid.NewGuid();
-    prichoziModel.Id = guid;
+    prichoziModel.Id = Guid.NewGuid();
     seznam.Insert(0, prichoziModel);
     return Results.Created("/vybaveni", prichoziModel);
 });
@@ -42,23 +41,20 @@ app.MapDelete("/vybaveni/{Id}", (Guid Id) =>
     return Results.Ok();
 });
 
-app.MapPut("/vybaveni", (Guid Id) =>                                /*edit*/
+app.MapPut("/vybaveni", (Guid Id, VybaveniModel prichoziModel) =>                                /*edit*/
 {
-    var stary = seznam.SingleOrDefault(x=>x.Id == Id);
-    if (stary is null) return Results.NotFound("Položka nenalezena");
+    var entity = seznam.SingleOrDefault(x=>x.Id == Id);
+    if (entity is null) return Results.NotFound("Položka nenalezena");
 
-    var nove = new VybaveniModel
-    {
-        Id = stary.Id,
-        Name = "AAAAA",
-        BoughtDate = stary.BoughtDate,
-        LastRevisionDate = stary.LastRevisionDate,
-        IsInEditMode = stary.IsInEditMode,
-        Price = 99999
-    };
+    entity.Id = prichoziModel.Id;
+    entity.Name = prichoziModel.Name;
+    entity.BoughtDate = prichoziModel.BoughtDate;
+    entity.LastRevisionDate = prichoziModel.LastRevisionDate;
+    entity.IsInEditMode = prichoziModel.IsInEditMode;
+    entity.Price = prichoziModel.Price;
 
-    seznam.Add(nove);
-    seznam.Remove(stary);
+    seznam.Add(entity);
+    seznam.Remove(prichoziModel);
 
     return Results.Ok();
 });
@@ -66,7 +62,8 @@ app.MapPut("/vybaveni", (Guid Id) =>                                /*edit*/
 app.MapGet("/vybaveni{Id}", (Guid Id) =>
 {
     var item = seznam.SingleOrDefault(x => x.Id == Id);
-    return item;
+    if (item != null) return Results.Json(item);
+    else return Results.NotFound();
 });
 
 
