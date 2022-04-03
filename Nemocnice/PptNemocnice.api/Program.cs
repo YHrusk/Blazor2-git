@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(policy =>
     policy.WithOrigins("https://localhost:7132")
     .WithMethods("GET", "POST", "DELETE", "PUT")
@@ -58,7 +59,7 @@ app.MapPut("/vybaveni", (VybaveniModel prichoziModel) =>                        
     return Results.Ok();
 });
 
-app.MapGet("/vybaveni{Id}", (Guid Id) =>
+app.MapGet("/vybaveni/{Id}", (Guid Id) =>
 {
     var item = seznam.SingleOrDefault(x => x.Id == Id);
     if (item != null) return Results.Json(item);
