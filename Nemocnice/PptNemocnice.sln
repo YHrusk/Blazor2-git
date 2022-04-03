@@ -5,7 +5,7 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice", "PptNemocnice\PptNemocnice.csproj", "{2CB05F03-B76C-4674-8370-3FE5154E1E53}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PptNemocnice.Shared", "PptNemocnice.Shared\PptNemocnice.Shared.csproj", "{EA1723E9-5063-426A-A245-6824ECAB5E4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice.Shared", "PptNemocnice.Shared\PptNemocnice.Shared.csproj", "{EA1723E9-5063-426A-A245-6824ECAB5E4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

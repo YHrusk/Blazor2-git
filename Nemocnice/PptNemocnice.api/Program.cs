@@ -5,8 +5,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(policy =>
+    policy.WithOrigins("https://localhost:7132")
+    .WithMethods("GET", "POST", "DELETE", "PUT")
+    .AllowAnyHeader()
+));
 
 var app = builder.Build();
+
+app.UseCors();
 
 app.MapGet("/", () => "Hello");
 
@@ -30,7 +37,7 @@ app.MapPost("/vybaveni", (VybaveniModel prichoziModel) =>           /*create*/
 {
     prichoziModel.Id = Guid.NewGuid();
     seznam.Insert(0, prichoziModel);
-    return Results.Created("/vybaveni", prichoziModel);
+    return Results.Created("/vybaveni", prichoziModel.Id);
 });
 
 app.MapDelete("/vybaveni/{Id}", (Guid Id) =>
@@ -41,21 +48,13 @@ app.MapDelete("/vybaveni/{Id}", (Guid Id) =>
     return Results.Ok();
 });
 
-app.MapPut("/vybaveni", (Guid Id, VybaveniModel prichoziModel) =>                                /*edit*/
+app.MapPut("/vybaveni", (VybaveniModel prichoziModel) =>                                /*edit*/
 {
-    var entity = seznam.SingleOrDefault(x=>x.Id == Id);
-    if (entity is null) return Results.NotFound("Položka nenalezena");
-
-    entity.Id = prichoziModel.Id;
-    entity.Name = prichoziModel.Name;
-    entity.BoughtDate = prichoziModel.BoughtDate;
-    entity.LastRevisionDate = prichoziModel.LastRevisionDate;
-    entity.IsInEditMode = prichoziModel.IsInEditMode;
-    entity.Price = prichoziModel.Price;
-
-    seznam.Add(entity);
-    seznam.Remove(prichoziModel);
-
+    var staryZaznam = seznam.SingleOrDefault(x => x.Id == prichoziModel.Id);
+    if (staryZaznam == null) return Results.NotFound("Tento záznam není v seznamu");
+    int ind = seznam.IndexOf(staryZaznam);
+    seznam.Insert(ind, prichoziModel);
+    seznam.Remove(staryZaznam);
     return Results.Ok();
 });
 

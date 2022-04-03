@@ -1,0 +1,30 @@
+﻿@page "/vybaveni/{Id:guid}"
+@inject HttpClient Http
+
+<h3>Detail vybaveni:</h3>
+
+@if(item==null)
+{
+    <div class="absolute right-1/2 bottom-1/2  transform translate-x-1/2 translate-y-1/2 ">
+        <div class=" border-t-transparent border-solid animate-spin  rounded-full border-red-600 border-8 h-16 w-16"></div>
+    </div>
+    return;
+}
+
+<div class="grid grid-cols-2"> 
+<div>Název</div>
+<div>@Id</div>
+</div>
+
+<a class="twbtn bg-yellow-400" href="/vybaveni">Zpět</a> 
+
+@code {
+    [Parameter] public Guid Id{ get; set; }
+
+    VybaveniModel? item;
+
+    protected override async Task OnInitializedAsync()
+    {
+        item = await Http.GetFromJsonAsync<VybaveniModel>($"vybaveni/{Id}");
+    }
+}

@@ -14,6 +14,7 @@
             <button @onclick="@(() => DeleteItemCallback.InvokeAsync())" class="twbtn bg-red-400">Smazat</button>              @*smazani*@
             <button @onclick="() => Item.LastRevisionDate = DateTime.Now" style="background-color:blue">Provést revizi</button>             @*revize*@
             <button @onclick="() => TurnOnEdit()" class="twbtn bg-amber-300">✏️</button>         @*edit*@
+            <a class="twbtn bg-green-400" href="/vybaveni/@Item.Id">Detail</a>                   @*odkaz detail*@
         </td>
     </tr>
 }
