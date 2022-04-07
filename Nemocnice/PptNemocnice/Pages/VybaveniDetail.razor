@@ -12,11 +12,24 @@
 }
 
 <div class="grid grid-cols-2"> 
-<div>Název</div>
-<div>@item.Name</div>
+
+  <div class="bg-blue-400">Název</div>
+  <div class="bg-red-500">@item.Name</div>
+
+   <div class="bg-blue-400">Cena</div>
+  <div class="bg-red-500">@item.Price</div>
+
+   <div class="bg-blue-400">Nakoupeno</div>
+  <div class="bg-red-500">@item.BoughtDate.ToString("yyyy-MM-dd")</div>
+
+   <div class="bg-blue-400">Poslení revize</div>
+  <div class="bg-red-500">@item.LastRevisionDate.ToString("yyyy-MM-dd")</div>
+
+     <div class="bg-blue-400">Potřebuje revizi</div>
+  <div class="bg-red-500">@(item.NeedRevision?"Ano":"Ne")</div>
 </div>
 
-<a class="twbtn bg-yellow-400" href="/vybaveni">Zpět</a> 
+<a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block; padding: 10px">Zpět</a> 
 
 @code {
     [Parameter] public Guid Id{ get; set; }
