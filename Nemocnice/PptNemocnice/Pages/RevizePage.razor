@@ -1,0 +1,14 @@
+﻿@page "/revize/{parametr}"
+
+<h1 style="color: green">@parametr</h1>
+
+<input />
+<button class="twbtn bg-amber-300" @onclick="@(() => )">Vyhledej</button>
+
+<div class="grid grid-cols-2"> 
+</div>
+
+@code {
+    [Parameter] public string parametr{ get; set; }
+
+}

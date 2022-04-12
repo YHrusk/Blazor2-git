@@ -66,6 +66,8 @@ app.MapGet("/vybaveni/{Id}", (Guid Id) =>
     else return Results.NotFound();
 });
 
+List<RevizeModel> list = new List<RevizeModel>();
+
 
 app.Run();
 
