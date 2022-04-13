@@ -17,17 +17,20 @@ namespace PptNemocnice.Shared
             Id = id;
         }
 
-        public static List<RevizeModel> Generovat()
+        public static List<RevizeModel> Vygenerovat()
         {
             List<RevizeModel> list = new List<RevizeModel>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
+                Random random = new Random();
                 Guid id = Guid.NewGuid();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
 
-                rev = new RevizeModel(nazev, id);
+                RevizeModel rev = new RevizeModel(nazev, id);
+                list.Add(rev);
             }
+            return list;
         }
     }
 }

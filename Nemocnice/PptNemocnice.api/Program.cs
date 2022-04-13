@@ -66,7 +66,14 @@ app.MapGet("/vybaveni/{Id}", (Guid Id) =>
     else return Results.NotFound();
 });
 
-List<RevizeModel> list = new List<RevizeModel>();
+List<RevizeModel> listRevizi = RevizeModel.Vygenerovat();
+
+app.MapGet("/revize/{vyhledavanyRetezec}", (string vyhledavanyRetezec) =>
+{
+    if (string.IsNullOrWhiteSpace(vyhledavanyRetezec)) return Results.Problem("Parametr musi byt neprazdny");
+    var kdeJeRetezec = listRevizi.Where(x => x.Name.Contains(vyhledavanyRetezec));
+    return Results.Json(kdeJeRetezec);
+});
 
 
 app.Run();
