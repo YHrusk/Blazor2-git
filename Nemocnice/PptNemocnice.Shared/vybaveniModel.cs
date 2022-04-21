@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PptNemocnice.Shared
@@ -16,6 +17,8 @@ namespace PptNemocnice.Shared
         public string Name { get; set; }
         public DateTime BoughtDate { get; set; }
         public DateTime LastRevisionDate { get; set; }
+
+        [JsonIgnore]
         public bool NeedRevision => DateTime.Now - LastRevisionDate > TimeSpan.FromDays(365 * 2);
         public bool IsInEditMode { get; set; }
 

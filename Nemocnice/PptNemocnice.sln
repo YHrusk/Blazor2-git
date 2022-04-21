@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice", "PptNemocnic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice.Shared", "PptNemocnice.Shared\PptNemocnice.Shared.csproj", "{EA1723E9-5063-426A-A245-6824ECAB5E4E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PptNemocnice.api", "PptNemocnice.api\PptNemocnice.api.csproj", "{262C3D82-8776-4FF9-9E8E-5E2521658B19}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{EA1723E9-5063-426A-A245-6824ECAB5E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA1723E9-5063-426A-A245-6824ECAB5E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA1723E9-5063-426A-A245-6824ECAB5E4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{262C3D82-8776-4FF9-9E8E-5E2521658B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{262C3D82-8776-4FF9-9E8E-5E2521658B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{262C3D82-8776-4FF9-9E8E-5E2521658B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{262C3D82-8776-4FF9-9E8E-5E2521658B19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
