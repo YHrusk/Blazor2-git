@@ -61,34 +61,18 @@ app.MapDelete("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper)
     db.Vybavenis.Remove(ent);
     db.SaveChanges();
     return Results.Ok();
-
-    //var item = seznam.SingleOrDefault(x=>x.Id == Id);
-    //if (item == null) return Results.NotFound("Položka nenalezena");
-    //seznam.Remove(item);
-    //return Results.Ok();
 });
 
 app.MapPut("/vybaveni", (VybaveniModel prichoziModel, NemocniceDbContext db, IMapper mapper) =>                             /*edit*/
 {
     var staryZaznam = db.Vybavenis.SingleOrDefault(x => x.Id == prichoziModel.Id);
-    if (staryZaznam == null) return Results.NotFound("Položka nenalezena");
+    if (staryZaznam == null) return Results.NotFound("Položka nenalezena");;
 
-    mapper.Map(prichoziModel, staryZaznam);
-
-    Vybaveni ent = mapper.Map<Vybaveni>(prichoziModel);
-    //Vybaveni stary = mapper.Map(staryZaznam, ent);
-    db.Vybavenis.Add(ent);
     db.Vybavenis.Remove(staryZaznam);
+    Vybaveni ent = mapper.Map<Vybaveni>(prichoziModel);;
+    db.Vybavenis.Add(ent);
     db.SaveChanges();
     return Results.Ok();
-
-    //
-    //var staryZaznam = seznam.SingleOrDefault(x => x.Id == prichoziModel.Id);
-    //if (staryZaznam == null) return Results.NotFound("Tento záznam není v seznamu");
-    //int ind = seznam.IndexOf(staryZaznam);
-    //seznam.Insert(ind, prichoziModel);
-    //seznam.Remove(staryZaznam);
-    //return Results.Ok();
 });
 
 app.MapGet("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>
@@ -96,10 +80,6 @@ app.MapGet("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>
     var item = db.Find<Vybaveni>(Id);
     if (item != null) return Results.Json(item);
     else return Results.NotFound();
-
-    //var item = seznam.SingleOrDefault(x => x.Id == Id);
-    //if (item != null) return Results.Json(item);
-    //else return Results.NotFound();
 });
 
 //List<RevizeModel> listRevizi = RevizeModel.Vygenerovat();
