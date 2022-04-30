@@ -20,11 +20,13 @@
    <div class="bg-blue-400">Nakoupeno</div>
   <div class="bg-red-500">@item.BoughtDate.ToString("yyyy-MM-dd")</div>
 
-   <div class="bg-blue-400">Poslení revize</div>
-  <div class="bg-red-500">@item.LastRevisionDate.ToString("yyyy-MM-dd")</div>
-
-     <div class="bg-blue-400">Potřebuje revizi</div>
-  <div class="bg-red-500">@(item.NeedRevision?"Ano":"Ne")</div>
+   <div class="bg-blue-400">Revize</div>
+  <div class="bg-red-500">
+        @foreach (var revize in item.Revizes)
+        {
+            <div>@revize.DateTime?.ToString("yyyy-MM-dd")</div>
+        }
+    </div>
 </div>
 
 <a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block; padding: 10px">Zpět</a> 
@@ -32,10 +34,10 @@
 @code {
     [Parameter] public Guid Id{ get; set; }
 
-    VybaveniModel? item;
+    VybaveniSRevizesModel? item;
 
     protected override async Task OnInitializedAsync()
     {
-        item = await Http.GetFromJsonAsync<VybaveniModel>($"vybaveni/{Id}");
+        item = await Http.GetFromJsonAsync<VybaveniSRevizesModel>($"vybaveni/{Id}");
     }
 }

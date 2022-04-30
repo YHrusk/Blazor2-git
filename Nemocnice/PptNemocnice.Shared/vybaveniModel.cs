@@ -16,7 +16,7 @@ namespace PptNemocnice.Shared
         [Display(Name = "Název")]
         public string Name { get; set; }
         public DateTime BoughtDate { get; set; }
-        public DateTime LastRevisionDate { get; set; }
+        public DateTime? LastRevisionDate { get; set; } = null;
 
         [JsonIgnore]
         public bool NeedRevision => DateTime.Now - LastRevisionDate > TimeSpan.FromDays(365 * 2);

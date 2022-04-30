@@ -7,7 +7,13 @@
     <tr class="@(Item.NeedRevision?"bg-red-300":"")">
         <td>@Item.Name</td>
         <td>@Item.BoughtDate.ToShortDateString()</td>
-        <td>@Item.LastRevisionDate.ToShortDateString()</td>
+        @if(Item.LastRevisionDate != null)
+        {
+            <td>@Item.LastRevisionDate?.ToShortDateString()</td>
+        } else
+        {
+            <td>NULL</td>
+        }
         <td>@(Item.NeedRevision?"Ano":"Ne")</td>
         <td>@Item.Price</td>
         <td class="flex gap-1">

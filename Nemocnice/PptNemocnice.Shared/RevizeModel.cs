@@ -10,7 +10,7 @@ namespace PptNemocnice.Shared
     {
         public string Name { get; set; }
         public Guid Id { get; set; }
-
+        public DateTime? DateTime { get; set; }
         public RevizeModel(string name, Guid id)
         {
             Name = name;
