@@ -10,12 +10,8 @@ namespace PptNemocnice.Shared
     {
         public string Name { get; set; }
         public Guid Id { get; set; }
+        public Guid VybaveniId { get; set; }
         public DateTime? DateTime { get; set; }
-        public RevizeModel(string name, Guid id)
-        {
-            Name = name;
-            Id = id;
-        }
 
         public static List<RevizeModel> Vygenerovat()
         {
@@ -23,11 +19,10 @@ namespace PptNemocnice.Shared
             for (int i = 0; i < 100; i++)
             {
                 Random random = new Random();
-                Guid id = Guid.NewGuid();
                 const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
                 string nazev = new string(Enumerable.Repeat(chars, 5).Select(s => s[random.Next(s.Length)]).ToArray());
 
-                RevizeModel rev = new RevizeModel(nazev, id);
+                var rev = new RevizeModel { Id = Guid.NewGuid(), Name = nazev};
                 list.Add(rev);
             }
             return list;

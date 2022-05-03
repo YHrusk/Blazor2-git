@@ -37,7 +37,7 @@ app.UseHttpsRedirection();
 
 //List<VybaveniModel> seznam = VybaveniModel.Generovat();
 
-app.MapGet("/vybaveni", (NemocniceDbContext db, IMapper mapper) =>
+app.MapGet("/vybaveni", (NemocniceDbContext db, IMapper mapper) =>              //ziskani vsech vybevni s jejich nejnovejsi revizi
 {
     List<VybaveniModel> models = new();
 
@@ -46,9 +46,7 @@ app.MapGet("/vybaveni", (NemocniceDbContext db, IMapper mapper) =>
     foreach (var ent in ents)
     {
         VybaveniModel vybaveni = mapper.Map<VybaveniModel>(ent);
-        ent.Revizes.OrderBy(d => d.DateTime);
-        vybaveni.LastRevisionDate = ent.Revizes.LastOrDefault()?.DateTime;
-
+        vybaveni.LastRevisionDate = ent.Revizes.OrderByDescending(x => x.DateTime).FirstOrDefault()?.DateTime;
         models.Add(vybaveni);
     }
     return Results.Json(models);
@@ -85,25 +83,14 @@ app.MapPut("/vybaveni", (VybaveniModel prichoziModel, NemocniceDbContext db, IMa
     return Results.Ok();
 });
 
-app.MapGet("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>
+app.MapGet("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>            //detail vybaveni??
 {
-    List<VybaveniSRevizesModel> models = new();
+    var ents = db.Vybavenis.Include(x => x.Revizes).SingleOrDefault(x => x.Id == Id);
+    if (ents == null) return Results.NotFound("nenalezeno");
 
-    var ents = db.Vybavenis.Include(x => x.Revizes);
-    
-    foreach (var ent in ents)
-    {
-        VybaveniSRevizesModel vybaveni = mapper.Map<VybaveniSRevizesModel>(ent);
-        models.Add(vybaveni);
-    }
-
-    var zarizeni = models.SingleOrDefault(x => x.Id == Id);
-    if (zarizeni == null) return Results.NotFound("Tento zaznam neni na seznamu");
-
-    return Results.Ok(zarizeni);
-
-    //
-    //var item = db.Vybavenis.Include(x=>x.Revizes).SingleOrDefault(x => x.Id == Id);
+    VybaveniSRevizesModel vybaveni = mapper.Map<VybaveniSRevizesModel>(ents);
+    return Results.Json(vybaveni);
+    //var item = db.Vybavenis.Include(x => x.Revizes).SingleOrDefault(x => x.Id == Id);
     //if (item != null) return Results.Json(mapper.Map<VybaveniModel>(item));
     ////specifikovat mapping - VybaveniSREvizi?
     //else return Results.NotFound();
@@ -119,16 +106,13 @@ app.MapGet("/revize/{vyhledavanyRetezec}", (string vyhledavanyRetezec, Nemocnice
     return Results.Json(kdeJeRetezec);
 });
 
-app.MapPost("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>
+app.MapPost("/revize", (RevizeModel revizeModel, NemocniceDbContext db, IMapper mapper) =>
 {
-    var item = db.Vybavenis.Include(x => x.Revizes).SingleOrDefault(x => x.Id == Id);
-    if (item == null) return Results.NotFound("Položka nenalezena");
-
-    Vybaveni ent = mapper.Map<Vybaveni>(item);
-    ent.Revizes.First().DateTime = item.Revizes.First().DateTime;
-    //db.Revizes.Add();
+    revizeModel.Id = Guid.Empty;    //vynulovat id, db si id poresi sama
+    Revize ent = mapper.Map<Revize>(revizeModel);
+    db.Revizes.Add(ent);
     db.SaveChanges();
-    return Results.Ok();
+    return Results.Created("/revize", ent.Id);
 });
 
 

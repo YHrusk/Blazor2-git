@@ -1,4 +1,5 @@
 ﻿@*<h3>VybaveniRow</h3>*@
+@inject HttpClient Http
 
 @if (Item == null) return;
 
@@ -18,7 +19,7 @@
         <td>@Item.Price</td>
         <td class="flex gap-1">
             <button @onclick="@(() => DeleteItemCallback.InvokeAsync())" class="twbtn bg-red-400">Smazat</button>              @*smazani*@
-            <button @onclick="() => Item.LastRevisionDate = DateTime.Now" style="background-color:blue">Provést revizi</button>             @*revize*@
+            <button @onclick="PridejRevizi" style="background-color:blue">Provést revizi</button>             @*revize*@
             <button @onclick="() => TurnOnEdit()" class="twbtn bg-amber-300">✏️</button>         @*edit*@
             <a class="twbtn bg-green-400" href="/vybaveni/@Item.Id">Detail</a>                   @*odkaz detail*@
         </td>
@@ -39,7 +40,15 @@ else if (editingItem != null && editingItem.IsInEditMode)
                                 <ValidationMessage For=" () => editingItem.Name"></ValidationMessage>
                             </td>
                             <td><InputDate @bind-Value=editingItem.BoughtDate /></td>
-                            <td><InputDate @bind-Value=editingItem.LastRevisionDate /></td>
+                            <td>
+                                @if (editingItem.LastRevisionDate == null)
+                                {
+                                    <span>Zatím bez revize</span>
+                                } else
+                                {
+                                    <span> @(((DateTime)editingItem.LastRevisionDate).ToString("yyyy-MM-dd"))</span>
+                                }
+                            </td>
                             <td>@(editingItem.NeedRevision?"Ano":"Ne")</td>
                             <td>
                                 <InputNumber type="number" @bind-Value=editingItem.Price />
@@ -109,4 +118,13 @@ else if (editingItem != null && editingItem.IsInEditMode)
         EditDoneCallback.InvokeAsync(success);
     }
 
+    private async Task PridejRevizi()
+    {
+        RevizeModel novaRevize = new() { Name = "ahoj", DateTime = DateTime.Now, VybaveniId = Item!.Id };
+        var resp = await Http.PostAsJsonAsync("revize", novaRevize);
+        if (!resp.IsSuccessStatusCode) return;  
+
+        novaRevize.Id = await resp.Content.ReadFromJsonAsync<Guid>();
+        Item.LastRevisionDate = novaRevize.DateTime;
+    }
 }
