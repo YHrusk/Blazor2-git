@@ -76,7 +76,7 @@ app.MapDelete("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper)
 app.MapPut("/vybaveni", (VybaveniModel prichoziModel, NemocniceDbContext db, IMapper mapper) =>                             /*edit*/
 {
     var staryZaznam = db.Vybavenis.SingleOrDefault(x => x.Id == prichoziModel.Id);
-    if (staryZaznam == null) return Results.NotFound("Položka nenalezena");;
+    if (staryZaznam == null) return Results.NotFound("Položka nenalezena");
 
     mapper.Map(prichoziModel, staryZaznam);
     db.SaveChanges();
