@@ -18,11 +18,15 @@ builder.Services.AddCors(corsOptions => corsOptions.AddDefaultPolicy(policy =>
     .AllowAnyHeader()
 ));
 
+builder.Services.AddControllers();
+
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
 app.UseCors();
+
+app.MapControllers();
 
 app.MapGet("/", () => "Hello");
 
@@ -37,31 +41,31 @@ app.UseHttpsRedirection();
 
 //List<VybaveniModel> seznam = VybaveniModel.Generovat();
 
-app.MapGet("/vybaveni", (NemocniceDbContext db, IMapper mapper) =>              //ziskani vsech vybevni s jejich nejnovejsi revizi
-{
-    List<VybaveniModel> models = new();
+//app.MapGet("/vybaveni", (NemocniceDbContext db, IMapper mapper) =>              //ziskani vsech vybevni s jejich nejnovejsi revizi
+//{
+//    List<VybaveniModel> models = new();
 
-    var ents = db.Vybavenis.Include(x => x.Revizes);
+//    var ents = db.Vybavenis.Include(x => x.Revizes);
 
-    foreach (var ent in ents)
-    {
-        VybaveniModel vybaveni = mapper.Map<VybaveniModel>(ent);
-        vybaveni.LastRevisionDate = ent.Revizes.OrderByDescending(x => x.DateTime).FirstOrDefault()?.DateTime;
-        models.Add(vybaveni);
-    }
-    return Results.Json(models);
-});
+//    foreach (var ent in ents)
+//    {
+//        VybaveniModel vybaveni = mapper.Map<VybaveniModel>(ent);
+//        vybaveni.LastRevisionDate = ent.Revizes.OrderByDescending(x => x.DateTime).FirstOrDefault()?.DateTime;
+//        models.Add(vybaveni);
+//    }
+//    return Results.Json(models);
+//});
 
-app.MapPost("/vybaveni", (VybaveniModel prichoziModel, NemocniceDbContext db, IMapper mapper) =>           /*create*/
-{
-    prichoziModel.Id = Guid.Empty;                                //databaze si ID spravuje sama
-    Vybaveni ent = mapper.Map<Vybaveni>(prichoziModel);           //mapovani prichozihoModelu na Vybaveni
-    db.Vybavenis.Add(ent);
-    db.SaveChanges();
+//app.MapPost("/vybaveni", (VybaveniModel prichoziModel, NemocniceDbContext db, IMapper mapper) =>           /*create*/
+//{
+//    prichoziModel.Id = Guid.Empty;                                //databaze si ID spravuje sama
+//    Vybaveni ent = mapper.Map<Vybaveni>(prichoziModel);           //mapovani prichozihoModelu na Vybaveni
+//    db.Vybavenis.Add(ent);
+//    db.SaveChanges();
 
-    //
-    return Results.Created("/vybaveni", ent.Id);
-});
+//    //
+//    return Results.Created("/vybaveni", ent.Id);
+//});
 
 app.MapDelete("/vybaveni/{Id}", (Guid Id, NemocniceDbContext db, IMapper mapper) =>
 {
