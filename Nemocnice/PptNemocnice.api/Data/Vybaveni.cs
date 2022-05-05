@@ -9,4 +9,5 @@ public class Vybaveni
     public int Price { get; set; }
 
     public List<Revize> Revizes { get; set; } = new();
+    public List<Ukon> Ukons { get; set; } = new();
 }

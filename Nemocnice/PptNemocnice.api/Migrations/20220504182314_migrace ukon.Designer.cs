@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PptNemocnice.api.Data;
 
@@ -10,9 +11,10 @@ using PptNemocnice.api.Data;
 namespace PptNemocnice.api.Migrations
 {
     [DbContext(typeof(NemocniceDbContext))]
-    partial class NemocniceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220504182314_migrace ukon")]
+    partial class migraceukon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
@@ -60,13 +62,6 @@ namespace PptNemocnice.api.Migrations
                             DateTime = new DateTime(1999, 1, 19, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "CCC",
                             VybaveniId = new Guid("5a3ed44c-ad9a-4b9d-a1ea-b0deabeb815a")
-                        },
-                        new
-                        {
-                            Id = new Guid("cc9b1c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2018, 10, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "DDD",
-                            VybaveniId = new Guid("b88f888d-b16a-4ffc-9bd5-7f6f5cb607b9")
                         });
                 });
 
@@ -92,59 +87,7 @@ namespace PptNemocnice.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VybaveniId");
-
                     b.ToTable("Ukons");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("cc771c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2019, 12, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Aliquam ornare",
-                            Name = "HHH",
-                            VybaveniId = new Guid("5a3ed44c-ad9a-4b9d-a1ea-b0deabeb815a")
-                        },
-                        new
-                        {
-                            Id = new Guid("dd881c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Neque porro",
-                            Name = "ZZZ",
-                            VybaveniId = new Guid("5a3ed44c-ad9a-4b9d-a1ea-b0deabeb815a")
-                        },
-                        new
-                        {
-                            Id = new Guid("ee991c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2016, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Duis risus",
-                            Name = "MMM",
-                            VybaveniId = new Guid("5a3ed44c-ad9a-4b9d-a1ea-b0deabeb815a")
-                        },
-                        new
-                        {
-                            Id = new Guid("ff001c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2022, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Fusce suscipit",
-                            Name = "III",
-                            VybaveniId = new Guid("5a3ed44c-ad9a-4b9d-a1ea-b0deabeb815a")
-                        },
-                        new
-                        {
-                            Id = new Guid("ab501c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2016, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Cras id dolor",
-                            Name = "VVV",
-                            VybaveniId = new Guid("b88f888d-b16a-4ffc-9bd5-7f6f5cb607b9")
-                        },
-                        new
-                        {
-                            Id = new Guid("cb661c28-10e9-4a04-bcd1-91cbececad23"),
-                            DateTime = new DateTime(2016, 9, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Info = "Mauris dictum",
-                            Name = "OOO",
-                            VybaveniId = new Guid("b88f888d-b16a-4ffc-9bd5-7f6f5cb607b9")
-                        });
                 });
 
             modelBuilder.Entity("PptNemocnice.api.Data.Vybaveni", b =>
@@ -178,9 +121,9 @@ namespace PptNemocnice.api.Migrations
                         new
                         {
                             Id = new Guid("b88f888d-b16a-4ffc-9bd5-7f6f5cb607b9"),
-                            BoughtDate = new DateTime(2000, 1, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            BoughtDate = new DateTime(2018, 5, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "AZU",
-                            Price = 10888
+                            Price = 555
                         },
                         new
                         {
@@ -202,22 +145,9 @@ namespace PptNemocnice.api.Migrations
                     b.Navigation("Vybaveni");
                 });
 
-            modelBuilder.Entity("PptNemocnice.api.Data.Ukon", b =>
-                {
-                    b.HasOne("PptNemocnice.api.Data.Vybaveni", "Vybaveni")
-                        .WithMany("Ukons")
-                        .HasForeignKey("VybaveniId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Vybaveni");
-                });
-
             modelBuilder.Entity("PptNemocnice.api.Data.Vybaveni", b =>
                 {
                     b.Navigation("Revizes");
-
-                    b.Navigation("Ukons");
                 });
 #pragma warning restore 612, 618
         }

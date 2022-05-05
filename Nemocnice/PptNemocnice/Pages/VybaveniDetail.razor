@@ -27,9 +27,18 @@
             <div>@revize.DateTime?.ToString("yyyy-MM-dd")</div>
         }
     </div>
+     <div class="bg-blue-400">Úkony</div>
+  <div class="bg-red-500">
+        @foreach (var ukon in item.Ukons)
+        {
+          <div style="float: left">@ukon.Info</div>
+          <div style="margin-left:auto">---@ukon.DateTime?.ToString("yyyy-MM-dd")</div>
+        }
+    </div>
 </div>
 
-<a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block; padding: 10px">Zpět</a> 
+<a class="twbtn bg-green-400" href=/vybaveni/@item.Id/ukon style="display:inline-block;">Přidat úkon</a>
+<a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block;">Zpět</a> 
 
 @code {
     [Parameter] public Guid Id{ get; set; }

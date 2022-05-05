@@ -16,4 +16,5 @@ public class VybaveniSRevizesModel
     public DateTime BoughtDate { get; set; }
 
     public List<RevizeModel> Revizes { get; set; } = new();
+    public List<UkonModel> Ukons { get; set; } = new();
 }

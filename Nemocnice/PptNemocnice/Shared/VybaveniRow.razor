@@ -19,8 +19,8 @@
         <td>@Item.Price</td>
         <td class="flex gap-1">
             <button @onclick="@(() => DeleteItemCallback.InvokeAsync())" class="twbtn bg-red-400">Smazat</button>              @*smazani*@
-            <button @onclick="PridejRevizi" style="background-color:blue">Provést revizi</button>             @*revize*@
-            <button @onclick="() => TurnOnEdit()" class="twbtn bg-amber-300">✏️</button>         @*edit*@
+            <button @onclick="PridejRevizi" class="twbtn bg-blue-400">Provést revizi</button>             @*revize*@ 
+            <button @onclick="() => TurnOnEdit()" class="twbtn bg-amber-400">✏️</button>         @*edit*@
             <a class="twbtn bg-green-400" href="/vybaveni/@Item.Id">Detail</a>                   @*odkaz detail*@
         </td>
     </tr>

@@ -45,4 +45,36 @@ public class VybaveniController : ControllerBase
 
         return ent.Id;
     }
+
+    [HttpDelete]
+    public IActionResult DeleteVybaveni(Guid Id)
+    {
+        var item = _db.Vybavenis.SingleOrDefault(x => x.Id == Id);
+        if (item == null) return NotFound("Položka nenalezena");
+        Vybaveni ent = _mapper.Map<Vybaveni>(item);
+        _db.Vybavenis.Remove(ent);
+        _db.SaveChanges();
+        return Ok();
+    }
+
+    [HttpPut]
+    public IActionResult PutVybaveni(VybaveniModel prichoziModel)
+    {
+        var staryZaznam = _db.Vybavenis.SingleOrDefault(x => x.Id == prichoziModel.Id);
+        if (staryZaznam == null) return NotFound("Položka nenalezena");
+
+        _mapper.Map(prichoziModel, staryZaznam);
+        _db.SaveChanges();
+        return Ok();
+    }
+
+    [HttpGet("{Id:guid}")]
+    public IActionResult GetVybaveni(Guid Id)
+    {
+        var ents = _db.Vybavenis.Include(x => x.Revizes).Include(x => x.Ukons).SingleOrDefault(x => x.Id == Id);
+        if (ents == null) return NotFound("nenalezeno");
+
+        VybaveniSRevizesModel vybaveni = _mapper.Map<VybaveniSRevizesModel>(ents);
+        return Ok(vybaveni);
+    }
 }
