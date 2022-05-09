@@ -3,45 +3,47 @@
 
 <h3>Detail vybaveni:</h3>
 
-@if(item==null)
+@if (item == null)
 {
     <Loading></Loading>
     return;
 }
 
-<div class="grid grid-cols-2"> 
+<div class="grid grid-cols-2">
 
-  <div class="bg-blue-400">Název</div>
-  <div class="bg-red-500">@item.Name</div>
+    <div class="bg-blue-400">Název</div>
+    <div class="bg-red-500">@item.Name</div>
 
-   <div class="bg-blue-400">Cena</div>
-  <div class="bg-red-500">@item.Price</div>
+    <div class="bg-blue-400">Cena</div>
+    <div class="bg-red-500">@item.Price</div>
 
-   <div class="bg-blue-400">Nakoupeno</div>
-  <div class="bg-red-500">@item.BoughtDate.ToString("yyyy-MM-dd")</div>
+    <div class="bg-blue-400">Nakoupeno</div>
+    <div class="bg-red-500">@item.BoughtDate.ToString("yyyy-MM-dd")</div>
 
-   <div class="bg-blue-400">Revize</div>
-  <div class="bg-red-500">
-        @foreach (var revize in item.Revizes)
+    <div class="col-span-2">
+             <div class="font-bold">Revize</div>
+
+     @foreach(var rev in item.Revizes)
         {
-            <div>@revize.DateTime?.ToString("yyyy-MM-dd")</div>
+            <div> Nazev: @rev.Name Datum: @rev.DateTime?.ToString("yyyy-MM-dd")</div>
         }
     </div>
-     <div class="bg-blue-400">Úkony</div>
-  <div class="bg-red-500">
-        @foreach (var ukon in item.Ukons)
+
+    <div class="col-span-2">
+        <div class="font-bold">Úkony</div>
+
+     @foreach(var uk in item.Ukons)
         {
-          <div style="float: left">@ukon.Info</div>
-          <div style="margin-left:auto">---@ukon.DateTime?.ToString("yyyy-MM-dd")</div>
+            <div> Info: @uk.Info, Kód: @uk.Kod,  Datum: @uk.DateTime?.ToString("yyyy-MM-dd")</div>
         }
     </div>
 </div>
 
-<a class="twbtn bg-green-400" href=/vybaveni/@item.Id/ukon style="display:inline-block;">Přidat úkon</a>
-<a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block;">Zpět</a> 
+<a class="twbtn bg-green-400" href="ukon/new?VybaveniId=@Id" style="display:inline-block;">Přidat úkon</a>
+<a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block;">Zpět</a>
 
 @code {
-    [Parameter] public Guid Id{ get; set; }
+    [Parameter] public Guid Id { get; set; }
 
     VybaveniSRevizesModel? item;
 

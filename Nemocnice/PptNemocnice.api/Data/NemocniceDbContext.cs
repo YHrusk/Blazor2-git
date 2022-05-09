@@ -26,12 +26,12 @@ public class NemocniceDbContext : DbContext         //dedi od EntityFrameworkCor
             new Revize() { Id = new Guid("cc9b1c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniA, Name = "DDD", DateTime = new DateTime(2018, 10, 29) }
             );
         builder.Entity<Ukon>().HasData(
-            new Ukon() { Id = new Guid("cc771c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name="HHH", DateTime = new DateTime(2019, 12, 28), Info= "Aliquam ornare" },
-            new Ukon() { Id = new Guid("dd881c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "ZZZ", DateTime = new DateTime(2000, 1, 1), Info = "Neque porro" },
-            new Ukon() { Id = new Guid("ee991c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "MMM", DateTime = new DateTime(2016, 8, 13), Info = "Duis risus" },
-            new Ukon() { Id = new Guid("ff001c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "III", DateTime = new DateTime(2022, 5, 20), Info = "Fusce suscipit" },
-            new Ukon() { Id = new Guid("ab501c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniA, Name = "VVV", DateTime = new DateTime(2016, 4, 26), Info = "Cras id dolor" },
-            new Ukon() { Id = new Guid("cb661c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniA, Name = "OOO", DateTime = new DateTime(2016, 9, 3), Info = "Mauris dictum" }
+            new Ukon() { Id = new Guid("cc771c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name="HHH", DateTime = new DateTime(2019, 12, 28), Info= "Aliquam ornare", Kod="211" },
+            new Ukon() { Id = new Guid("dd881c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "ZZZ", DateTime = new DateTime(2000, 1, 1), Info = "Neque porro", Kod = "111" },
+            new Ukon() { Id = new Guid("ee991c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "MMM", DateTime = new DateTime(2016, 8, 13), Info = "Duis risus", Kod = "213" },
+            new Ukon() { Id = new Guid("ff001c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniRevizi, Name = "III", DateTime = new DateTime(2022, 5, 20), Info = "Fusce suscipit", Kod = "201" },
+            new Ukon() { Id = new Guid("ab501c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniA, Name = "VVV", DateTime = new DateTime(2016, 4, 26), Info = "Cras id dolor", Kod = "205" },
+            new Ukon() { Id = new Guid("cb661c28-10e9-4a04-bcd1-91cbececad23"), VybaveniId = idVybaveniA, Name = "OOO", DateTime = new DateTime(2016, 9, 3), Info = "Mauris dictum", Kod = "209" }
             );
     }
 

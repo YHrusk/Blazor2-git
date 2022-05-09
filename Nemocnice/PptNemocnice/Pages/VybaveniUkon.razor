@@ -1,54 +1,79 @@
-﻿@page "/vybaveni/{Id:guid}/ukon"
+﻿@page "/ukon/new"
 @inject HttpClient Http
+@inject NavigationManager Nm;
+
+@if (VybaveniId == null)
+{
+    <div>Potřebujeme znát id vybavení</div>
+    <a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block;">Zpět na vybavení</a>
+    return;
+}
+
+@if (error is not null)
+{
+    <div class="text-red-500 font-bold">
+        @error
+    </div>
+}
 
 <h3>Ukon vybaveni:</h3>
 
-@if (item == null)
+@*@if (item == null)
 {
     <Loading></Loading>
     return;
-}
+}*@
 
 <div class="container mx-auto">
     <div class="max-w-xl p-5 mx-auto my-10 bg-white rounded-md border-solid border-2 border-sky-600">
         <div class="text-center">
-            <h2>ID vybaveni: @item.Id</h2>
+            @*<h2>Název vybaveni: @item.Name</h2>
+            <h2>ID vybaveni: @item.Id</h2>*@
+            <h2>Přidání nového úkonu k vybavení</h2>
         </div>
-        <div class="mb-6">
-            <label for="nazev" class="block mb-2 text-sm text-gray-600">Název:</label>
-            <input type="text" id="nazev" @bind="@nazev" class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%" required>
-        </div>
-        <div class="mb-6">
-            <label for="info" class="block mb-2 text-sm text-gray-600">Info:</label>
-            <input type="text" id="info" @bind="info" class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%" required>
-        </div>
-        <div class="mb-6">
-            <label for="date" class="block mb-2 text-sm text-gray-600">Datum:</label>
-            <input type="date" id="date" @bind="date" class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%">
-        </div>
-        <button @onclick="PridejUkon" class="twbtn bg-blue-400">Přidat úkon</button>
-        <a class="twbtn bg-yellow-400" href="/vybaveni/@item.Id" style="display:inline-block;">Zrušit a zpět na detail</a>
+
+        <EditForm Model=ukon OnValidSubmit=PridejUkon>
+            <div class="mb-6">
+                <label class="block mb-2 text-sm text-gray-600">Název:</label>
+                <InputText @bind-Value=ukon.Name class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%"/>
+            </div>
+            <div class="mb-6">
+                <label class="block mb-2 text-sm text-gray-600">Info:</label>
+                <InputText @bind-Value=ukon.Info class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%"/>
+            </div>
+            <div class="mb-6">
+                <label class="block mb-2 text-sm text-gray-600">Kód pojišťovny:</label>
+                <InputText @bind-Value=ukon.Kod class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%"/>
+            </div>
+            <div class="mb-6">
+                <label class="block mb-2 text-sm text-gray-600">Datum:</label>
+                <InputDate @bind-Value=ukon.DateTime class="w-1/3 px-4 py-2 border border-gray-300 outline-none focus:border-gray-400 rounded-md" style="width:100%"/>
+            </div>
+            <button @onclick="PridejUkon" class="twbtn bg-blue-400">Přidat úkon</button>
+            <a class="twbtn bg-yellow-400" href="/vybaveni/@VybaveniId" style="display:inline-block;">Zrušit a zpět na detail</a>
+        </EditForm>
     </div>
 </div>
 
 @code {
-    [Parameter] public Guid Id { get; set; }
+    [SupplyParameterFromQuery, Parameter] public Guid? VybaveniId { get; set; }
 
-    VybaveniSRevizesModel? item;
+    string? error;
 
-    private string nazev;
-    private string info;
-    private DateTime date;
-
-    protected override async Task OnInitializedAsync()
-    {
-        item = await Http.GetFromJsonAsync<VybaveniSRevizesModel>($"vybaveni/{Id}");
-    }
+    private UkonModel ukon = new();
 
     private async Task PridejUkon()
     {
-        UkonModel novyUkon = new() { Name = nazev, Info = info, DateTime = date, VybaveniId = item!.Id };
-        var resp = await Http.PostAsJsonAsync("ukon", novyUkon);
-        if (!resp.IsSuccessStatusCode) return;
+        if (VybaveniId == null) return;
+        ukon.VybaveniId = (Guid)VybaveniId;
+
+        var resp = await Http.PostAsJsonAsync("ukon", ukon);
+        if (!resp.IsSuccessStatusCode)
+        {
+            error = "Nepodařilo se přidat úkon, zkuste to prosím znovu";
+            return;
+        }
+
+        Nm.NavigateTo($"vybaveni/{VybaveniId}");
     }
 }

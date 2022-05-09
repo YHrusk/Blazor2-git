@@ -7,5 +7,6 @@ public class Ukon
     public Guid VybaveniId { get; set; }
     public string Info { get; set; } = "";
     public DateTime? DateTime { get; set; }
+    public string Kod { get; set; } = "";
     public Vybaveni Vybaveni { get; set; } = null!;
 }

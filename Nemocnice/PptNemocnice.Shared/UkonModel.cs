@@ -13,4 +13,5 @@ public class UkonModel
     public Guid VybaveniId { get; set; }
     public string Info { get; set; } = "";
     public DateTime? DateTime { get; set; }
+    public string Kod { get; set; } = "";
 }
