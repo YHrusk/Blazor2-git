@@ -7,7 +7,7 @@
   "linkerEnabled": true,
   "resources": {
     "assembly": {
-      "Microsoft.AspNetCore.Components.dll": "sha256-JdcqDe3xoLy41mO4bgtkoie5ggPcGZ9LddHKRlYOxpI=",
+      "Microsoft.AspNetCore.Components.dll": "sha256-fGTNcljTNhE6hiOx6HuC9UiQMVDacPbfzBNA5Mk0x0U=",
       "Microsoft.AspNetCore.Components.Forms.dll": "sha256-8hDfxruQfvRyNzUU0\/HBOxBlhF2R2HBHCCoVE+9MbL8=",
       "Microsoft.AspNetCore.Components.Web.dll": "sha256-4SP32ByCJ88fi2x0u\/Djv94Nzz+roFuqrPjb13pT+pw=",
       "Microsoft.AspNetCore.Components.WebAssembly.dll": "sha256-s8NIiCdfl4htB8VeUTQV5WITDLilTpeYgzgbdSrrD0Q=",
@@ -22,8 +22,8 @@
       "Microsoft.Extensions.Primitives.dll": "sha256-YColTWA58whC+8aBjv1O7HgsyYrbHTba601EkNDWAlo=",
       "Microsoft.JSInterop.dll": "sha256-+GY7M29nbxOy5QeUmEhzxwnKgJIKqAAebAcieirsWs8=",
       "Microsoft.JSInterop.WebAssembly.dll": "sha256-+vVdIj7neJ+ihLFR+qU3xbNhxbIyjk4IHvJiJ3reJOs=",
-      "PptNemocnice.dll": "sha256-xtBS31QzlpEcSKtHsJL1+GZ57YDWq8htm2zyfbUSsiA=",
-      "PptNemocnice.Shared.dll": "sha256-Hw1qLomQmMhSmGuGwab3nM66\/7Yx\/uFj5VT9Y\/0MJSw=",
+      "PptNemocnice.dll": "sha256-R8BsG3fLdTZX4\/rPH3yicMvBDeAUuxpDyG3O4cSQaDQ=",
+      "PptNemocnice.Shared.dll": "sha256-NPxJx9Adk\/aJDSGo3us7MyhB0Ge2NmRvQoMLc7vQldw=",
       "System.Collections.Concurrent.dll": "sha256-yfnZYGTmM7JS22bwxt6lcaX0TzZu0aRsObipl8hnEdY=",
       "System.Collections.dll": "sha256-WDDn54ubr1IWQkK9zFfdVgoSXgGxrr9PaeiIv0cqecQ=",
       "System.Collections.NonGeneric.dll": "sha256-u7OBMfMkaX2SSxl6A3f1GjL7RNhGwlkYYAwVVff7Epk=",
