@@ -1,9 +1,9 @@
 {
   "cacheBootResources": true,
   "config": [
-    "appsettings Production.json",
     "appsettings.Development.json",
-    "appsettings.json"
+    "appsettings.json",
+    "appsettings.Production.json"
   ],
   "debugBuild": false,
   "entryAssembly": "PptNemocnice",
