@@ -22,4 +22,10 @@
     <ProjectReference Include="..\PptNemocnice.Shared\PptNemocnice.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Nemocnice.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
