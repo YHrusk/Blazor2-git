@@ -21,25 +21,38 @@
     <div class="bg-red-500">@item.BoughtDate.ToString("yyyy-MM-dd")</div>
 
     <div class="col-span-2">
-             <div class="font-bold">Revize</div>
+        <div class="font-bold">Revize</div>
 
-     @foreach(var rev in item.Revizes)
+        @foreach (var rev in item.Revizes)
         {
             <div> Nazev: @rev.Name Datum: @rev.DateTime?.ToString("yyyy-MM-dd")</div>
+            @if (nejnovejsiRevize == null || nejnovejsiRevize < rev.DateTime) nejnovejsiRevize = rev.DateTime;
         }
     </div>
 
     <div class="col-span-2">
         <div class="font-bold">Úkony</div>
 
-     @foreach(var uk in item.Ukons)
+        @foreach (var uk in item.Ukons)
         {
             <div> Info: @uk.Info, Kód: @uk.Kod,  Datum: @uk.DateTime?.ToString("yyyy-MM-dd")</div>
         }
     </div>
 </div>
 
-<a class="twbtn bg-green-400" href="ukon/new?VybaveniId=@Id" style="display:inline-block;">Přidat úkon</a>
+<button @onclick="PridejRevizi" class="twbtn bg-blue-400">Provést revizi</button>
+
+@if (item.Revizes != null)
+{
+    <button @onclick="PridejUkon" disabled=@(NeedRevision) class="twbtn bg-green-400">Přidat úkon</button>
+
+    @if (NeedRevision == true)
+    {
+        <div class="text-red-500 font-bold">
+            Příliš stará revize pro přidání úkonu
+        </div>
+    }
+}
 <a class="twbtn bg-yellow-400" href="/vybaveni" style="display:inline-block;">Zpět</a>
 
 @code {
@@ -47,8 +60,41 @@
 
     VybaveniSRevizesModel? item;
 
+    private DateTime? nejnovejsiRevize;
+
+    public bool NeedRevision
+    {
+        get => DateTime.Now - nejnovejsiRevize > TimeSpan.FromDays(365 * 2);
+        set { NeedRevision = value; }
+    }
+
+    @inject NavigationManager NavigationManager;
+
     protected override async Task OnInitializedAsync()
     {
         item = await Http.GetFromJsonAsync<VybaveniSRevizesModel>($"vybaveni/{Id}");
+    }
+
+    private async Task PridejRevizi()
+    {
+        if (item is null) return;
+        RevizeModel novaRevize = new() { Name = "nova revize", VybaveniId = item!.Id };
+        var resp = await Http.PostAsJsonAsync("revize", novaRevize);
+        if (!resp.IsSuccessStatusCode) return;
+
+        var respContent = await resp.Content.ReadFromJsonAsync<RevizeCreatedResponseModel>();
+        if(respContent is not null)
+        {
+            novaRevize.Id = respContent.Id;
+            novaRevize.DateTime = respContent.DateTime;
+        }
+
+        item.Revizes.Add(novaRevize);
+        //NavigationManager.NavigateTo($"vybaveni/{Id}", true);
+    }
+
+    private void PridejUkon()
+    {
+        NavigationManager.NavigateTo($"ukon/new?VybaveniId={Id}");
     }
 }

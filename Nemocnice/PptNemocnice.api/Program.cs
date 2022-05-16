@@ -111,17 +111,25 @@ app.MapGet("/revize/{vyhledavanyRetezec}", (string vyhledavanyRetezec, Nemocnice
 });
 
 app.MapPost("/revize", (RevizeModel revizeModel, NemocniceDbContext db, IMapper mapper) =>
-{
-    revizeModel.Id = Guid.Empty;    //vynulovat id, db si id poresi sama
+{    
+    revizeModel.Id = Guid.Empty;                        //vynulovat id, db si id poresi sama
+    revizeModel.DateTime = DateTime.UtcNow;             //pridani datumu na serveru
     Revize ent = mapper.Map<Revize>(revizeModel);
     db.Revizes.Add(ent);
     db.SaveChanges();
-    return Results.Created("/revize", ent.Id);
+    return Results.Created("/revize", new RevizeCreatedResponseModel(ent.Id, ent.DateTime));
 });
 
 app.MapPost("/ukon", (UkonModel ukonModel, NemocniceDbContext db, IMapper mapper) =>
 {
     ukonModel.Id = Guid.Empty;
+    var posledniRevizeDatum = db.Vybavenis.Include(x => x.Revizes)      //vybaveni vcetne revizi
+    .SingleOrDefault(x => x.Id == ukonModel.VybaveniId)?        //konkretni vybaveni
+    .Revizes.OrderBy(x => x.DateTime)       //vsechny revize serazene od nejstarsi
+    .LastOrDefault()?.DateTime;     //posledni revize (nejnovejsi) a jeji datum
+    if (posledniRevizeDatum == null || posledniRevizeDatum.Value.AddYears(2) < DateTime.UtcNow) //overeni rozdilu 2 let
+        return Results.BadRequest("Nemùže se pøidat úkon, pokud je revize starší než 2 roky");
+
     Ukon ent = mapper.Map<Ukon>(ukonModel);
     db.Ukons.Add(ent);
     db.SaveChanges();
