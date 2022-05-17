@@ -35,8 +35,8 @@
 
         @foreach (var uk in item.Ukons)
         {
-            <div>Info: <div style="color:green">@uk.Info</div>Kód: @uk.Kod, Datum: @uk.DateTime?.ToString("yyyy-MM-dd")</div>
-            <div>Provedl: @uk.PracovnikId</div>
+            <div>Info: <font style="color:olive">@uk.Info</font>Kód: @uk.Kod, Datum: @uk.DateTime?.ToString("yyyy-MM-dd")</div>
+            <div>Provedl: @uk.PracovnikName</div>
         }
     </div>
 </div>

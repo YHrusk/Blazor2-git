@@ -15,4 +15,5 @@ public class UkonModel
     public DateTime? DateTime { get; set; }
     public string Kod { get; set; } = "";
     public Guid? PracovnikId { get; set; }
+    public string? PracovnikName { get; set; }
 }

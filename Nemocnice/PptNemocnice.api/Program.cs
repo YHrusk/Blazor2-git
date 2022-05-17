@@ -136,7 +136,7 @@ app.MapPost("/ukon", (UkonModel ukonModel, NemocniceDbContext db, IMapper mapper
     return Results.Created("/ukon", ent.Id);
 });
 
-app.MapGet("/revize/{tajnyKod}", (string tajnyKod, NemocniceDbContext db, IConfiguration config) =>
+app.MapGet("/seed/{tajnyKod}", (string tajnyKod, NemocniceDbContext db, IConfiguration config) =>
 {
     if (tajnyKod != config["seedSecrete"])
         return Results.NotFound();
