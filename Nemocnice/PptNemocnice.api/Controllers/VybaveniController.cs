@@ -71,7 +71,7 @@ public class VybaveniController : ControllerBase
     [HttpGet("{Id:guid}")]
     public IActionResult GetVybaveni(Guid Id)
     {
-        var ents = _db.Vybavenis.Include(x => x.Revizes).Include(x => x.Ukons).SingleOrDefault(x => x.Id == Id);
+        var ents = _db.Vybavenis.Include(x => x.Revizes).Include(x => x.Ukons).ThenInclude(x => x.Pracovnik).SingleOrDefault(x => x.Id == Id);
         if (ents == null) return NotFound("nenalezeno");
 
         VybaveniSRevizesModel vybaveni = _mapper.Map<VybaveniSRevizesModel>(ents);

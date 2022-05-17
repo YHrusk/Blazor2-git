@@ -38,4 +38,5 @@ public class NemocniceDbContext : DbContext         //dedi od EntityFrameworkCor
     public DbSet<Vybaveni> Vybavenis => Set<Vybaveni>();              //metoda DbContextu, rika ze se jedna o tabulku
     public DbSet<Revize> Revizes => Set<Revize>();
     public DbSet<Ukon> Ukons => Set<Ukon>();
+    public DbSet<Pracovnik> Pracovniks => Set<Pracovnik>();
 }

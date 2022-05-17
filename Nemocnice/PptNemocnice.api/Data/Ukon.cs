@@ -9,4 +9,6 @@ public class Ukon
     public DateTime? DateTime { get; set; }
     public string Kod { get; set; } = "";
     public Vybaveni Vybaveni { get; set; } = null!;
+    public Guid? PracovnikId { get; set; }
+    public Pracovnik? Pracovnik { get; set; }
 }

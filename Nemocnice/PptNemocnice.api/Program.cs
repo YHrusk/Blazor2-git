@@ -136,6 +136,43 @@ app.MapPost("/ukon", (UkonModel ukonModel, NemocniceDbContext db, IMapper mapper
     return Results.Created("/ukon", ent.Id);
 });
 
+app.MapGet("/revize/{tajnyKod}", (string tajnyKod, NemocniceDbContext db, IConfiguration config) =>
+{
+    if (tajnyKod != config["seedSecrete"])
+        return Results.NotFound();
+
+    Random rnd = new();
+    List<Pracovnik> pracanti = new();
+    int pocetPracantu = 10;
+    for (int i = 0; i < pocetPracantu; i++)
+        pracanti.Add(new() { Name = RandomString(12) });
+
+    db.AddRange(pracanti); db.SaveChanges();
+
+    foreach (var vyb in db.Vybavenis)//pro každé vybavení
+    {
+        int pocetUkonu = rnd.Next(13, 25);
+        for (int i = 0; i < pocetUkonu; i++)//se vytvoøí nìkolik úkonù
+        {
+            Ukon uk = new()
+            {
+                DateTime = DateTime.UtcNow.AddDays(rnd.Next(-100, -1)),
+                Info = RandomString(56).Replace("x", " "),
+                Kod = RandomString(5),
+                VybaveniId = vyb.Id,//daného vybavení
+                PracovnikId = pracanti[rnd.Next(pocetPracantu - 1)].Id
+            };
+            db.Ukons.Add(uk);
+        }
+    }
+    db.SaveChanges();
+
+    return Results.Ok();
+
+    string RandomString(int length) =>//lokální funkce
+        new(Enumerable.Range(0, length).Select(_ => (char)rnd.Next('a', 'z')).ToArray());
+});
+
 
 app.Run();
 

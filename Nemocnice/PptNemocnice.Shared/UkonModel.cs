@@ -14,4 +14,5 @@ public class UkonModel
     public string Info { get; set; } = "";
     public DateTime? DateTime { get; set; }
     public string Kod { get; set; } = "";
+    public Guid? PracovnikId { get; set; }
 }
